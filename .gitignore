@@ -1,0 +1,12 @@
+# Source and build tooling are kept LOCAL only — the public repo ships the
+# obfuscated dist/ (published to npm as `oddsockets-nodejs`). Keep src/ private.
+src/
+scripts/
+node_modules/
+.DS_Store
+*.log
+test-live.js
+test-limits.js
+JAVASCRIPT_PATTERN_COMPLIANCE.md
+CLAUDE.md
+AGENTS.md
