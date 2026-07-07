@@ -1,6 +1,41 @@
 # OddSockets Node.js SDK
 
-Official Node.js SDK for the OddSockets real-time messaging platform. This SDK provides a simple, powerful interface for building real-time applications with automatic manager discovery, worker load balancing, and message size validation.
+### Real-time messaging for AI agents — as simple as git.
+
+**Your agents connect in real-time. Autonomously.** OddSockets is the agent-first real-time platform: publish, subscribe, and coordinate across services with `<30ms` global latency and a `99.99%` uptime SLA. This is the official Node.js SDK — automatic manager discovery, worker load balancing, auto-reconnect, and a drop-in PubNub compatibility layer.
+
+[![npm version](https://img.shields.io/npm/v/oddsockets-nodejs.svg)](https://www.npmjs.com/package/oddsockets-nodejs)
+[![node](https://img.shields.io/node/v/oddsockets-nodejs.svg)](https://www.npmjs.com/package/oddsockets-nodejs)
+[![latency](https://img.shields.io/badge/latency-%3C30ms-brightgreen.svg)](https://oddsockets.com)
+[![uptime](https://img.shields.io/badge/uptime-99.99%25-brightgreen.svg)](https://oddsockets.com)
+
+```bash
+npm install oddsockets-nodejs
+```
+
+> **Building an agent?** OddSockets also ships a zero-boilerplate CLI — `npm install -g oddsockets`, then `oddsockets signup my-app --local` and `oddsockets publish alerts "Deploy complete"`. No API calls, no SDK wiring, just commands. Drop one line in your `CLAUDE.md` or `.cursorrules` and your agent has real-time messaging.
+
+## Why OddSockets
+
+- **Agent-first** — Built for autonomous workflows. Agents publish, subscribe, and coordinate without a human in the loop.
+- **Blazing fast** — `<30ms` global latency on a multi-worker cluster with automatic failover and cross-worker fan-out.
+- **PubNub alternative — up to 50% cheaper** — Drop-in `PubNubCompat` layer means you migrate in minutes, not weeks.
+- **19 SDKs, one platform** — JavaScript, Node.js, Python, Go, Java, Rust, C#, Kotlin, Swift, Flutter, PHP, React Native, Ruby, Elixir, Svelte, C, C++, Unity, and Unreal Engine.
+- **Presence & history built in** — Real-time user presence, state, and message history out of the box.
+- **Free to start** — 100 MAU, 10,000 messages/day, no credit card. [Get a key](#get-a-free-api-key).
+
+## Migrating from PubNub or Pusher?
+
+| | OddSockets | PubNub | Pusher |
+|---|---|---|---|
+| **Free tier** | 100 MAU, 10k msgs/day | Limited | Limited |
+| **Global latency** | `<30ms` | ~50-100ms | ~50ms |
+| **Drop-in compat layer** | Yes (`PubNubCompat`) | — | — |
+| **Presence tracking** | Included | Add-on | Included |
+| **Agent-native CLI** | Yes | No | No |
+| **SDK languages** | 19 | ~10 | ~7 |
+
+Already on PubNub? Skip to the [PubNub Compatibility](#pubnub-compatibility) section — most apps swap the import and keep going.
 
 ## Features
 
@@ -10,19 +45,12 @@ Official Node.js SDK for the OddSockets real-time messaging platform. This SDK p
 - **Session Stickiness** - Consistent worker assignment for optimal performance
 - **PubNub Compatibility** - Drop-in replacement for PubNub applications
 - **Bulk Operations** - Publish multiple messages efficiently
-- **TypeScript Support** - Full TypeScript definitions included
 - **Presence Tracking** - Real-time user presence and state management
-
-## Installation
-
-```bash
-npm install @oddsocketsai/nodejs-sdk
-```
 
 ## Quick Start
 
 ```javascript
-const OddSockets = require('@oddsocketsai/nodejs-sdk');
+const OddSockets = require('oddsockets-nodejs');
 
 // Initialize the client
 const client = new OddSockets({
@@ -165,7 +193,7 @@ channel.on('presence_change', (event) => {
 Migrate from PubNub with minimal code changes:
 
 ```javascript
-const { PubNubCompat } = require('@oddsocketsai/nodejs-sdk');
+const { PubNubCompat } = require('oddsockets-nodejs');
 
 // Initialize with PubNub-style config
 const pubnub = new PubNubCompat({
@@ -445,4 +473,4 @@ See [pricing](https://oddsockets.com/pricing) for full details.
 
 ## License
 
-MIT License - Copyright (c) 2026 Joe Wee, Tyga.Cloud Ltd. See [LICENSE](LICENSE) for details.
+Proprietary - Copyright (c) 2026 Tyga.Cloud Ltd. Licensed for use with the OddSockets platform. See [LICENSE](LICENSE) for the full End User License Agreement.
