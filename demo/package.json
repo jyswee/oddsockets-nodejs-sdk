@@ -1,0 +1,13 @@
+{
+  "name": "oddsockets-nodejs-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Runnable pub/sub round-trip demo for the OddSockets Node.js SDK",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@oddsocketsai/nodejs-sdk": "file:.."
+  }
+}
