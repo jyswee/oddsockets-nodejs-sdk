@@ -188,6 +188,76 @@ channel.on('presence_change', (event) => {
 });
 ```
 
+## Enhanced Features
+
+Everything beyond core pub/sub — reactions, typing indicators, threads, read
+receipts, presence/status, direct messages, notifications, file uploads and
+channel management — lives on `client.enhanced`. The pattern is always the same:
+
+1. **Send** an action with a `client.enhanced.*` method.
+2. **Receive** the resulting broadcast on the client event surface with
+   `client.on('<event>', handler)`.
+
+The worker fans each action out to the other members of the room, so a typing
+or reaction event fired by one client surfaces on every *other* subscribed
+client — a genuine round-trip, not a local echo.
+
+```javascript
+const client = new OddSockets({ apiKey: 'your-api-key-here', userId: 'bob' });
+const channel = client.channel('my-channel');
+await channel.subscribe(() => {});
+
+// Reactions — everyone in the room hears reaction_added
+client.on('reaction_added', (p) => console.log(`reaction: ${p.emoji} by ${p.userId}`));
+client.enhanced.addReaction({
+  messageId: 'msg-1',
+  channel: 'my-channel',
+  emoji: ':thumbsup:',
+  userId: 'bob',
+  userName: 'Bob'
+});
+
+// Typing indicators
+client.on('user_typing', (p) => console.log(`${p.userId} is typing in ${p.channel}`));
+client.enhanced.startTyping('bob', 'my-channel');
+
+// Threads
+client.on('thread_reply', (p) => console.log(`reply in ${p.channel}`));
+await client.enhanced.threadReply({
+  channel: 'my-channel',
+  parentMessageId: 'parent-1',
+  message: 'nice!',
+  userId: 'bob',
+  userName: 'Bob'
+});
+```
+
+The full enhanced surface (all backed by the worker):
+
+| Area | Requests (`client.enhanced.*`) | Broadcast events (`client.on`) |
+|---|---|---|
+| Reactions | `addReaction`, `removeReaction`, `getReactions` | `reaction_added`, `reaction_removed` |
+| Typing | `startTyping`, `stopTyping` | `user_typing`, `user_stopped_typing` |
+| Threads | `threadReply`, `getThread`, `subscribeThread`, `markThreadRead`, `followThread`, `unfollowThread` | `thread_reply`, `thread_subscribed`, `thread_followed`, `thread_unfollowed`, `thread_read_updated` |
+| Message editing | `editMessage`, `deleteMessage`, `pinMessage`, `unpinMessage`, `getPinnedMessages` | `message_edited`, `message_deleted`, `message_pinned`, `message_unpinned` |
+| Read receipts | `markRead`, `getUnreadCounts`, `markAllRead` | `user_read`, `unread_count_updated`, `all_marked_read` |
+| Presence & status | `setStatus`, `setCustomStatus`, `clearCustomStatus`, `setDND`, `clearDND`, `getUserPresence` | `user_status_changed`, `custom_status_updated`, `custom_status_cleared`, `dnd_status_changed`, `status_updated` |
+| File uploads | `startFileUpload`, `uploadProgress`, `uploadComplete` | `file_upload_completed`, `file_upload_progress`, `file_upload_failed` |
+| Direct messages | `createDM`, `sendDM`, `getDMConversations` | `dm_created`, `dm_received` |
+| Notifications | `subscribeNotifications`, `markNotificationRead`, `markAllNotificationsRead`, `clearNotifications`, `getNotifications` | `notification`, `notification_read`, `all_notifications_read`, `notifications_cleared` |
+| Channel management | `createChannel`, `updateChannel`, `archiveChannel`, `inviteToChannel`, `removeFromChannel`, `joinChannel`, `leaveChannel`, `getChannelMembers` | `channel_created`, `channel_updated`, `user_invited`, `user_joined_channel`, `user_left_channel`, `user_removed` |
+| Search | `searchMessages`, `filterMessages`, `searchChannel` | *(promise results, no broadcast)* |
+
+Request methods that read data (`getReactions`, `getThread`, `getUnreadCounts`,
+`getUserPresence`, `getPinnedMessages`, `getChannelMembers`, `getDMConversations`,
+`getNotifications`, `searchMessages`, …) return a `Promise` that resolves with
+the worker's response. Fire-and-forget actions (`addReaction`, `startTyping`,
+`setStatus`, …) send immediately and surface as broadcasts on the other clients.
+
+For any worker broadcast not listed above, subscribe to it directly with
+`client.on('<event_name>', handler)` — every enhanced broadcast is forwarded
+onto the client event surface.
+
 ## PubNub Compatibility
 
 Migrate from PubNub with minimal code changes:
@@ -396,12 +466,16 @@ node examples/basic-usage.js pubnub
 - `getClientIdentifier()` - Get client identifier
 - `getSessionInfo()` - Get session information
 
+#### Properties
+- `enhanced` - Enhanced feature surface (reactions, typing, threads, presence/status, DMs, notifications, file uploads, channel management). See [Enhanced Features](#enhanced-features).
+
 #### Events
 - `connected` - Connected to platform
 - `disconnected` - Disconnected from platform
 - `reconnecting` - Attempting to reconnect
 - `error` - Connection error occurred
 - `worker_assigned` - Assigned to a worker
+- Enhanced broadcast events (`reaction_added`, `user_typing`, `thread_reply`, `message_edited`, `notification`, …) are forwarded onto this surface — subscribe with `client.on('<event>', handler)`. Full list under [Enhanced Features](#enhanced-features).
 
 ### Channel Class
 
