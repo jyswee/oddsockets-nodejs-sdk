@@ -15,12 +15,3 @@ AGENTS.md
 e2e-*.js
 hist-*.js
 pc2.js
-
-# Agent working notes — must never reach the public repo.
-CLAUDE.md
-AGENTS.md
-
-# Local regression/scratch harnesses.
-test-live.js
-test-limits.js
-package-lock.json
