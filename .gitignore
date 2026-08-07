@@ -10,3 +10,17 @@ test-limits.js
 JAVASCRIPT_PATTERN_COMPLIANCE.md
 CLAUDE.md
 AGENTS.md
+
+# Local regression/scratch harnesses — not part of the published package.
+e2e-*.js
+hist-*.js
+pc2.js
+
+# Agent working notes — must never reach the public repo.
+CLAUDE.md
+AGENTS.md
+
+# Local regression/scratch harnesses.
+test-live.js
+test-limits.js
+package-lock.json
