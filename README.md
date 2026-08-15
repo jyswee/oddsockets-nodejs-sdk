@@ -539,6 +539,14 @@ See [pricing](https://oddsockets.com/pricing) for full details.
 - Node.js 14.0.0 or higher
 - Active OddSockets API key ([get one free](#get-a-free-api-key))
 
+## Get Accredited
+
+<a href="https://tyga.games/accreditation"><img src="https://prodmedia.tyga.host/public/tyga.cloud/landing/tyga.games/tygagames-black-words.svg" alt="tyga.games accreditation" height="44"></a>
+
+Prove you can build and operate real-time features on OddSockets — channels, presence, pub/sub, delivery guarantees and production liveops — on the stack itself. Three tiers (**TCU / TCA / TCP**), certified through **tyga.games** and delivered on ClassaaS.
+
+[**Get accredited on tyga.games →**](https://tyga.games/accreditation)
+
 ## Support
 
 - [Documentation](https://docs.oddsockets.com/sdks/nodejs)
