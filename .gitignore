@@ -15,3 +15,5 @@ AGENTS.md
 e2e-*.js
 hist-*.js
 pc2.js
+
+.sc/
