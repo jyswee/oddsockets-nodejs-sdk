@@ -1,6 +1,6 @@
 {
   "name": "oddsockets-nodejs",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Official Node.js SDK for OddSockets real-time messaging platform",
   "main": "dist/index.js",
   "scripts": {
@@ -56,6 +56,8 @@
     "dist/",
     "examples/",
     "README.md",
-    "LICENSE"
-  ]
+    "LICENSE",
+    "index.d.ts"
+  ],
+  "types": "index.d.ts"
 }
