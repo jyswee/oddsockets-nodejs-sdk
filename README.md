@@ -2,7 +2,7 @@
 
 ### Real-time messaging for AI agents — as simple as git.
 
-**Your agents connect in real-time. Autonomously.** OddSockets is the agent-first real-time platform: publish, subscribe, and coordinate across services with `<30ms` global latency and a `99.99%` uptime SLA. This is the official Node.js SDK — automatic manager discovery, worker load balancing, auto-reconnect, and a drop-in PubNub compatibility layer.
+**Your agents connect in real-time. Autonomously.** OddSockets is the agent-first real-time platform: publish, subscribe, and coordinate across services with `<30ms` global latency and a `99.99%` uptime SLA. This is the official Node.js SDK — automatic manager discovery, worker load balancing, auto-reconnect, and a drop-in migration compatibility layer.
 
 [![npm version](https://img.shields.io/npm/v/oddsockets-nodejs.svg)](https://www.npmjs.com/package/oddsockets-nodejs)
 [![node](https://img.shields.io/node/v/oddsockets-nodejs.svg)](https://www.npmjs.com/package/oddsockets-nodejs)
@@ -13,29 +13,16 @@
 npm install oddsockets-nodejs
 ```
 
-> **Building an agent?** OddSockets also ships a zero-boilerplate CLI — `npm install -g oddsockets`, then `oddsockets signup my-app --local` and `oddsockets publish alerts "Deploy complete"`. No API calls, no SDK wiring, just commands. Drop one line in your `CLAUDE.md` or `.cursorrules` and your agent has real-time messaging.
+> **Building an agent?** OddSockets also ships a zero-boilerplate CLI — `npm install -g oddsockets-cli`, then `oddsockets signup my-app --local` and `oddsockets publish alerts "Deploy complete"`. No API calls, no SDK wiring, just commands. Drop one line in your `CLAUDE.md` or `.cursorrules` and your agent has real-time messaging.
 
 ## Why OddSockets
 
 - **Agent-first** — Built for autonomous workflows. Agents publish, subscribe, and coordinate without a human in the loop.
 - **Blazing fast** — `<30ms` global latency on a multi-worker cluster with automatic failover and cross-worker fan-out.
-- **PubNub alternative — up to 50% cheaper** — Drop-in `PubNubCompat` layer means you migrate in minutes, not weeks.
+- **Drop-in migration layer** — a `PubNubCompat` class mirrors the classic pub/sub listener API, so existing apps migrate in minutes, not weeks (see [PubNub Compatibility](#pubnub-compatibility)).
 - **19 SDKs, one platform** — JavaScript, Node.js, Python, Go, Java, Rust, C#, Kotlin, Swift, Flutter, PHP, React Native, Ruby, Elixir, Svelte, C, C++, Unity, and Unreal Engine.
 - **Presence & history built in** — Real-time user presence, state, and message history out of the box.
-- **Free to start** — 100 MAU, 10,000 messages/day, no credit card. [Get a key](#get-a-free-api-key).
-
-## Migrating from PubNub or Pusher?
-
-| | OddSockets | PubNub | Pusher |
-|---|---|---|---|
-| **Free tier** | 100 MAU, 10k msgs/day | Limited | Limited |
-| **Global latency** | `<30ms` | ~50-100ms | ~50ms |
-| **Drop-in compat layer** | Yes (`PubNubCompat`) | — | — |
-| **Presence tracking** | Included | Add-on | Included |
-| **Agent-native CLI** | Yes | No | No |
-| **SDK languages** | 19 | ~10 | ~7 |
-
-Already on PubNub? Skip to the [PubNub Compatibility](#pubnub-compatibility) section — most apps swap the import and keep going.
+- **7-day free trial on every plan** — signup issues a working key instantly (keyless for the first 48h, nothing charged during the trial). [Get a key](#get-an-api-key).
 
 ## Features
 
@@ -532,47 +519,35 @@ node examples/basic-usage.js pubnub
 - `presence` - Presence information
 - `presence_change` - Presence changed
 
-## Get a Free API Key
+## Get an API Key
 
-AI agents can sign up with a verified email in two steps — no dashboard, no human required.
+No free tier — every plan starts with a 7-day free trial (nothing is charged
+during the trial). Signup issues a working API key instantly; the key runs
+keyless for 48 hours, and adding a card within that window extends it through
+the trial.
 
-**Step 1:** Request a verification code
+Scriptable signup (CLI):
+
 ```bash
-curl -X POST https://oddsockets.com/api/agent-signup \
-  -H "Content-Type: application/json" \
-  -d '{"email": "you@example.com", "agentName": "my-agent", "platform": "claude"}'
+npm i -g oddsockets-cli
+oddsockets plans                                  # list live plan ids
+oddsockets signup you@studio.com --plan oddsockets-starter
+oddsockets publish smoke-test '{"hello":"world"}' # verify in one line
 ```
 
-**Step 2:** Verify the 6-digit code from your email and get your API key
-```bash
-curl -X POST https://oddsockets.com/api/agent-signup/verify \
-  -H "Content-Type: application/json" \
-  -d '{"email": "you@example.com", "code": "123456", "agentName": "my-agent"}'
-```
+AI agents can also self-provision via MCP: connect to
+`https://mcp.oddsockets.ai/sse` and call `oddsockets_signup`.
 
 ## Plans
 
-| | Free | Starter | Pro |
-|---|---|---|---|
-| **Price** | $0/mo | $49.99/mo | $299/mo |
-| **MAU** | 100 | 1,000 | 50,000 |
-| **Concurrent connections** | 50 | 1,000 | Unlimited |
-| **Messages/day** | 10,000 | 4,320,000 | Unlimited |
-| **Messages/minute** | 100 | 3,000 | Unlimited |
-| **Channels** | 10 | Unlimited | Unlimited |
-| **Storage** | 100MB (24h) | 50GB (6 months) | Unlimited |
-| **Webhooks** | No | Yes | Yes |
-| **Analytics** | No | Yes | Yes |
-| **Support** | Community | 24/5 email & chat | Dedicated team |
+`oddsockets-starter` $29/mo · `oddsockets-pro` $99/mo · `oddsockets-scale` $299/mo · `oddsockets-enterprise` (contact us)
 
-All limits are enforced in real time. When a limit is reached, the SDK receives a `RATE_LIMIT_EXCEEDED` error with a `retryAfter` value.
-
-See [pricing](https://oddsockets.com/pricing) for full details.
+See [oddsockets.com/pricing](https://oddsockets.com/pricing) for current limits per tier. All limits are enforced in real time; when a limit is reached, the SDK receives a `RATE_LIMIT_EXCEEDED` error with a `retryAfter` value.
 
 ## Requirements
 
 - Node.js 14.0.0 or higher
-- Active OddSockets API key ([get one free](#get-a-free-api-key))
+- Active OddSockets API key ([get one](#get-an-api-key))
 
 ## Get Accredited
 
@@ -584,7 +559,7 @@ Prove you can build and operate real-time features on OddSockets — channels, p
 
 ## Support
 
-- [Documentation](https://docs.oddsockets.com/sdks/nodejs)
+- [Documentation](https://docs.oddsockets.com/nodejs/docs/)
 - [Issue Tracker](https://github.com/jyswee/oddsockets-nodejs-sdk/issues)
 - [Email Support](mailto:support@oddsockets.com)
 
