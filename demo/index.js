@@ -14,7 +14,7 @@
  * -> presence -> unsubscribe -> disconnect.
  *
  * Run:
- *   export ODDSOCKETS_API_KEY="ak_..."   # get a free key: see README
+ *   export ODDSOCKETS_API_KEY="ak_..."   # get an API key: see README
  *   npm install
  *   node index.js
  */
@@ -22,7 +22,7 @@ const OddSockets = require('@oddsocketsai/nodejs-sdk');
 
 const API_KEY = process.env.ODDSOCKETS_API_KEY;
 if (!API_KEY) {
-  console.error('Missing ODDSOCKETS_API_KEY. Get a free key (see README), then:');
+  console.error('Missing ODDSOCKETS_API_KEY. Get an API key (see README), then:');
   console.error('  export ODDSOCKETS_API_KEY="ak_..."');
   process.exit(1);
 }
