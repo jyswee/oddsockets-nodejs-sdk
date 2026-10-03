@@ -44,8 +44,6 @@ function finish(code, msg) {
 const subscriber = new OddSockets({ apiKey: API_KEY, userId: 'alice', autoConnect: false });
 const publisher  = new OddSockets({ apiKey: API_KEY, userId: 'bob',   autoConnect: false });
 
-subscriber.on('worker_assigned', (w) => console.log('[alice] worker', w.workerId));
-publisher.on('worker_assigned',  (w) => console.log('[bob]   worker', w.workerId));
 subscriber.on('error', (e) => console.error('[alice] error', e.message));
 publisher.on('error',  (e) => console.error('[bob]   error', e.message));
 

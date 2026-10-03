@@ -38,8 +38,6 @@ Expected output:
 
 ```
 [connect] connecting both clients...
-[bob]   worker [instance]
-[alice] worker [instance]
 [connect] alice = connected , bob = connected
 [alice] subscribed to demo-... (presence on)
 [bob] published, ack = {"messageId":"...","channel":"demo-...","subscriberCount":1}
